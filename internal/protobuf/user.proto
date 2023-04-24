@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package userproto;
+
+option go_package = "./;userproto";
+
+enum Status {
+	STATUS_UNSPECIFIED = 0;
+	STATUS_OK = 1;
+	STATUS_NOUSER = 2;
+	STATUS_BADPASSWD = 3;
+	STATUS_USEREX = 4;
+	STATUS_WRGPASSWD = 5;
+	STATUS_BANNED = 6;
+	STATUS_ALRLOGGED = 7;
+}
+
+message CreateUserRequest {
+	string username = 1;
+	string password = 2;
+}
+
+message CreateUserResponse {
+	Status status = 1;
+}
+
+message LoginUserRequest {
+	string username = 1;
+	string password = 2;
+	string uuid = 3;
+}
+
+message LoginUserResponse {
+	Status status = 1;
+	string uuid = 2;
+}
+
+service UserService{
+    rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {};
+		rpc LoginUser(LoginUserRequest) returns (LoginUserResponse) {};
+}
