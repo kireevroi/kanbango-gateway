@@ -1,8 +1,9 @@
 package main
 
 
+
 func main() {
-	// conn, err := grpc.Dial("kanbango.ru:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial("kanbango.ru:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Println("WTF happened")
 	}
