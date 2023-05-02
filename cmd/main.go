@@ -12,7 +12,7 @@ import (
 func main() {
 	r := gin.Default()
 
-	r.GET("/ping", func(c *gin.Context) {
+	r.GET("/api/ping", func(c *gin.Context) {
 		c.String(http.StatusOK, "pong")
 	})
 
@@ -22,8 +22,9 @@ func main() {
 		log.Fatalf("unable to establish route to auth server: %v", err)
 	}
 	defer a.Close()
-	r.POST("/login", a.LoginHandler())
+	r.POST("/api/login", a.LoginHandler())
+	r.POST("/api/logout", a.LogoutHandler())
 
 
-	r.Run(":8080")
+	r.Run(":5535")
 }

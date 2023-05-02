@@ -38,4 +38,5 @@ message LoginUserResponse {
 service UserService{
     rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {};
 		rpc LoginUser(LoginUserRequest) returns (LoginUserResponse) {};
+		rpc LogoutUser(LoginUserRequest) returns (LoginUserResponse) {};
 }

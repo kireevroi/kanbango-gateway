@@ -73,7 +73,7 @@ func (a *Auth)LoginHandler() gin.HandlerFunc {
 		
 		log.Println(login.Status, login.Uuid)
 		if login.Status == pb.Status_STATUS_OK {
-			c.SetCookie("auth_cookie", login.Uuid, 3600, "/", "localhost", false, false)
+			c.SetCookie("auth_cookie", login.Uuid, 3600, "/", "kanbango.ru", false, false)
 			c.JSON(http.StatusOK, gin.H{"Status" : "Logged in"})
 			return
 		} else if login.Status == pb.Status_STATUS_ALRLOGGED {
@@ -84,5 +84,16 @@ func (a *Auth)LoginHandler() gin.HandlerFunc {
 			c.JSON(http.StatusForbidden, gin.H{"Status" : "Wrong something"})
 			return
 		}
+	}
+}
+
+func (a *Auth)LogoutHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		client := pb.NewUserServiceClient(a.conn)
+		cookie, _ := c.Cookie("auth_cookie")
+		log.Println(cookie)
+		client.LogoutUser(context.Background(), &pb.LoginUserRequest{Uuid: cookie})
+		c.SetCookie("auth_cookie", "", -1, "/", "kanbango.ru", false, false)
+		c.JSON(http.StatusOK, gin.H{"Status" : "Logged out"})
 	}
 }
