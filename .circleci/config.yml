@@ -39,7 +39,7 @@ jobs:
       - run: 
           name: Deploying Kanbango gateway
           command: |
-            scp -r . $SSH_USER@$SSH_HOST:/home/$SSH_USER/
+            scp -r ./* $SSH_USER@$SSH_HOST:/home/$SSH_USER/
       - run: ssh $SSH_USER@$SSH_HOST 'sudo docker up --build -d'
 
 workflows:
