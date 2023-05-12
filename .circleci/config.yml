@@ -35,7 +35,6 @@ jobs:
       - run: apk add openssh
       - run: mkdir -p /root/.ssh
       - run: ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
-      - run: ls -la
       - run: 
           name: Deploying Kanbango gateway
           command: |
