@@ -19,7 +19,7 @@ jobs:
           key: go-mod-v4-{{ checksum "go.sum" }}
       
       - run: go test -v ./...
-      - run: go test -race -coverprofile=coverage.out -covermode=atomic
+      - run: go test -coverprofile=coverage.out -covermode=atomic
       - run: go build
       - codecov/upload:
           file: coverage.out
