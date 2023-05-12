@@ -1,0 +1,53 @@
+version: 2.1
+orbs:
+  codecov: codecov/codecov@1.0.2
+
+jobs:
+  build:
+    docker:
+      - image: golang:alpine
+    working_directory: /project
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - go-mod-v4-{{ checksum "go.sum" }}
+      - run: go get ./...
+      - save_cache:
+          paths:
+            - /go/pkg/mod
+          key: go-mod-v4-{{ checksum "go.sum" }}
+      
+      - run: go test -v ./...
+      - run: go test -race -coverprofile=coverage.out -covermode=atomic
+      - run: go build
+      - codecov/upload:
+          token: $CODECOV_TOKEN 
+
+  deploy:
+    docker:
+      - image: alpine:latest
+    working_directory: /project
+    steps:
+      - checkout
+      - run: apk update
+      - run: apk add openssh
+      - run: mkdir -p /root/.ssh
+      - run: ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
+      - run: 
+          name: Deploying Kanbango gateway
+          command: |
+            scp -r . $SSH_USER@$SSH_HOST:/home/$SSH_USER/
+      - run: ssh $SSH_USER@$SSH_HOST 'sudo docker up --build -d'
+
+workflows:
+  test-n-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master

@@ -2,3 +2,4 @@
 database/*
 .env
 !.gitkeep
+coverage.out
