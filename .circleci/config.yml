@@ -35,11 +35,10 @@ jobs:
       - run: apk add openssh
       - run: mkdir -p /root/.ssh
       - run: ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
-      - run: ls -la
       - run: 
           name: Deploying Kanbango gateway
           command: |
-            scp -r . $SSH_USER@$SSH_HOST:/home/$SSH_USER/
+            scp -r ./* $SSH_USER@$SSH_HOST:/home/$SSH_USER/
       - run: ssh $SSH_USER@$SSH_HOST 'sudo docker up --build -d'
 
 workflows:
