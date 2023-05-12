@@ -20,7 +20,7 @@ jobs:
       
       - run: go test -v ./...
       - run: go test ./... -coverprofile=coverage.out
-      - run: go build
+      - run: go build ./cmd/main.go
       - codecov/upload:
           file: coverage.out
           token: $CODECOV_TOKEN 
