@@ -5,7 +5,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: golang:alpine
+      - image: golang:latest
     working_directory: /project
     steps:
       - checkout
@@ -19,9 +19,10 @@ jobs:
           key: go-mod-v4-{{ checksum "go.sum" }}
       
       - run: go test -v ./...
-      - run: go test -race -coverprofile=coverage.out -covermode=atomic
-      - run: go build
+      - run: go test ./... -coverprofile=coverage.out
+      - run: go build ./cmd/main.go
       - codecov/upload:
+          file: coverage.out
           token: $CODECOV_TOKEN 
 
   deploy:
