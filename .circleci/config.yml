@@ -22,6 +22,7 @@ jobs:
       - run: go test -race -coverprofile=coverage.out -covermode=atomic
       - run: go build
       - codecov/upload:
+          file: coverage.out
           token: $CODECOV_TOKEN 
 
   deploy:
