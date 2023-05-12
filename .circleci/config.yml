@@ -5,7 +5,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: golang:alpine
+      - image: golang:latest
     working_directory: /project
     steps:
       - checkout
