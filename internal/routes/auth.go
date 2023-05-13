@@ -73,7 +73,7 @@ func (a *Auth)LoginHandler() gin.HandlerFunc {
 		
 		log.Println(login.Status, login.Uuid)
 		if login.Status == pb.Status_STATUS_OK {
-			c.SetCookie("auth_cookie", login.Uuid, 3600, "/", "kanbango.ru", true, false)
+			c.SetCookie("auth_cookie", login.Uuid, 3600, "/", "kanbango.ru", true, true)
 			c.JSON(http.StatusOK, gin.H{"Status" : "Logged in"})
 			return
 		} else if login.Status == pb.Status_STATUS_ALRLOGGED {
