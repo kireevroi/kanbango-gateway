@@ -8,6 +8,8 @@ RUN go build -o /kanbango-gateway ./cmd/main.go
 
 FROM alpine:3.16
 COPY --from=build /kanbango-gateway /kanbango-gateway
+COPY ./kbg-cert.pem /
+COPY ./kbg-key.pem /
 # COPY --from=build /usr/src/app/.env /.env
 
 CMD ["/kanbango-gateway"]
