@@ -26,5 +26,5 @@ func main() {
 	r.POST("/api/logout", a.LogoutHandler())
 
 
-	r.Run(":5535")
+	r.RunTLS(":5535", "./kbg-cert.pem", "./kbg-key.pem")
 }
