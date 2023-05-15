@@ -8,7 +8,6 @@ import (
 	"github.com/kireevroi/kanbango/gateway/internal/routes"
 )
 
-
 func main() {
 	r := gin.Default()
 
@@ -24,7 +23,7 @@ func main() {
 	defer a.Close()
 	r.POST("/api/login", a.LoginHandler())
 	r.POST("/api/logout", a.LogoutHandler())
-
+	r.POST("/api/signup", a.SignupHandler())
 
 	r.RunTLS(":5535", "./kbg.crt", "./kbg.key")
 }
