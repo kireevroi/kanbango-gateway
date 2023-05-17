@@ -132,3 +132,15 @@ func (a *Auth)DeleteHandler() gin.HandlerFunc {
 		c.JSON(http.StatusOK, gin.H {"Status" : "User deleted"})
 	}
 }
+
+func (a *Auth)IsLoggedHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		_, err := c.Cookie("auth")
+		if err != nil {
+			c.JSON(http.StatusForbidden, gin.H {"Status" : "U not logged biatch"})
+			return
+		}
+		// Should regenerate token
+		c.JSON(http.StatusOK, gin.H {"Status" : "Allowed"})
+	}
+}
