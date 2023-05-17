@@ -120,7 +120,6 @@ func (a *Auth)DeleteHandler() gin.HandlerFunc {
 		client := pb.NewUserServiceClient(a.conn)
 		cookie, err := c.Cookie("auth")
 		if err != nil {
-			c.SetCookie("auth", "", -1, "/", "kanbango.ru", true, true)
 			c.JSON(http.StatusUnauthorized, gin.H {"Status" : "But youre not logged in..."})
 			return
 		}
@@ -129,6 +128,7 @@ func (a *Auth)DeleteHandler() gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"Status" : "Something wrong"})
 			return
 		}
+		c.SetCookie("auth", "", -1, "/", "kanbango.ru", true, true)
 		c.JSON(http.StatusOK, gin.H {"Status" : "User deleted"})
 	}
 }
