@@ -26,5 +26,6 @@ func main() {
 	r.POST("/api/logout", a.LogoutHandler())
 	r.POST("/api/signup", a.SignupHandler())
 	r.DELETE("/api/delete", a.DeleteHandler())
+	r.GET("/api/islogged", a.IsLoggedHandler())
 	r.RunTLS(":5535", "./kbg.crt", "./kbg.key")
 }
