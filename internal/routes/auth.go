@@ -60,7 +60,7 @@ func (a *Auth) LoginHandler() gin.HandlerFunc {
 			log.Printf("ingress login error: %v", err)
 		}
 
-		cookie, _ := c.Cookie("auth_cookie")
+		cookie, _ := c.Cookie("auth_cookiex")
 		client := pb.NewUserServiceClient(a.conn)
 		log.Println(u.User, cookie)
 		login, err := client.LoginUser(context.Background(), &pb.LoginUserRequest{Username: u.User, Password: u.Password, Uuid: cookie})
@@ -72,7 +72,7 @@ func (a *Auth) LoginHandler() gin.HandlerFunc {
 
 		log.Println(login.Status, login.Uuid)
 		if login.Status == pb.Status_STATUS_OK {
-			c.SetCookie("auth_cookie", login.Uuid, 3600, "/", "kanbango.ru", true, true)
+			c.SetCookie("auth_cookiex", login.Uuid, 3600, "/", "localhost", false, true)
 			c.JSON(http.StatusOK, gin.H{"Status": "Logged in"})
 			return
 		} else if login.Status == pb.Status_STATUS_ALRLOGGED {
@@ -89,10 +89,10 @@ func (a *Auth) LoginHandler() gin.HandlerFunc {
 func (a *Auth) LogoutHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		client := pb.NewUserServiceClient(a.conn)
-		cookie, _ := c.Cookie("auth_cookie")
+		cookie, _ := c.Cookie("auth_cookiex")
 		log.Println(cookie)
 		client.LogoutUser(context.Background(), &pb.LoginUserRequest{Uuid: cookie})
-		c.SetCookie("auth_cookie", "", -1, "/", "kanbango.ru", false, false)
+		c.SetCookie("auth_cookie", "", -1, "/", "localhost", false, false)
 		c.JSON(http.StatusOK, gin.H{"Status": "Logged out"})
 	}
 }
@@ -104,7 +104,7 @@ func (a *Auth) SignupHandler() gin.HandlerFunc {
 			log.Printf("ingress login error: %v", err)
 		}
 
-		cookie, _ := c.Cookie("auth_cookie")
+		cookie, _ := c.Cookie("auth_cookiex")
 		client := pb.NewUserServiceClient(a.conn)
 		log.Println(u.User, cookie)
 		login, err := client.LoginUser(context.Background(), &pb.LoginUserRequest{Username: u.User, Password: u.Password, Uuid: cookie})
@@ -116,7 +116,7 @@ func (a *Auth) SignupHandler() gin.HandlerFunc {
 
 		log.Println(login.Status, login.Uuid)
 		if login.Status == pb.Status_STATUS_OK {
-			c.SetCookie("auth_cookie", login.Uuid, 3600, "/", "kanbango.ru", true, true)
+			c.SetCookie("auth_cookiex", login.Uuid, 3600, "/", "localhost", false, true)
 			c.JSON(http.StatusOK, gin.H{"Status": "Logged in"})
 			return
 		} else if login.Status == pb.Status_STATUS_ALRLOGGED {
